@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import appState from '../services/AppState';
+import ServerState from '../services/ServerState';
+
 
 class App extends Component {
 	constructor(props) {

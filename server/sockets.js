@@ -2,22 +2,48 @@ const socketIo = require('socket.io');
 let io;
 var monitorHandler;
 
-var socketManager = {
-  register: function(http, callback) {
-    io = require('socket.io')(http);
-    io.on('connection', (socket) => {
-      console.log('connection!');
-      var monitorHandler = require('./monitors').Handler;
-      socket.on('registerMonitor', (name) => {
-        console.log('Register monitor called', name);
-        monitorHandler.registerClientMonitor(name);
-      });
+class SocketManager {
+  constructor() {
+    this.sockets = [];
+    this.serverSockets = [];
+  }
+
+  register(http) {
+    this.io = require('socket.io')(http);
+    this.registerEvents();
+    this.monitorHandler = require('./monitors').Handler;
+  }
+
+  registerSocketEvents(socket) {
+    socket.on('registerMonitor', (name) => {
+      this.monitorHandler.registerClientMonitor(name);
     });
-    socketManager.emit = io.emit.bind(io);
-  },
-  emit: function() {
+
+    socket.on('ServerConnected', () => this.handleServerConnected(socket));
+  }
+
+  handleServerConnected(socket) {
+    this.serverSockets.push(socket);
+    socket.emit('monitors', this.monitorHandler.monitors);
+  }
+
+  updateMonitorsChanged(monitors) {
+    this.serverSockets.forEach((s) => s.emit('monitors', monitors));
+  }
+
+  registerEvents() {
+    this.io.on('connection', (socket) => {
+      this.sockets.push(socket);
+      this.registerSocketEvents(socket);
+    });
+    this.emit = this.io.emit.bind(this.io);
+  }
+
+  emit() {
     console.warn('Emit was called before connection');
   }
-};
+}
 
-module.exports = socketManager;
+
+
+module.exports = new SocketManager();

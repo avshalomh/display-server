@@ -1,13 +1,12 @@
-import {observable, autorun} from 'mobx';
+import {observable, autorun, toJS} from 'mobx';
 import io from './socketManager';
 
-class AppState {
+class ServerState {
   @observable monitors = {};
   @observable selectedMonitor;
 
   constructor() {
     this.bindSockets();
-
   }
 
   bindSockets = () => {
@@ -17,5 +16,5 @@ class AppState {
   }
 
 }
-var state = new AppState();
+var state = new ServerState();
 export default state;

@@ -27,22 +27,27 @@ class MonitorsHandler {
   }
 
   emitChange(name, html) {
-    console.log('Emitting monitor html change', name, html);
     io.emit('monitorHtmlChanged', {name, html});
+  }
+
+  emitMonitorsChanged() {
+    io.updateMonitorsChanged(this.monitors);
   }
 
   addMonitor(name) {
     if (this.monitors[name]) {
       return;
-    } else {
-      this.monitors[name] = {
-        html: ''
-      }
     }
+    this.monitors[name] = {
+      html: ''
+    };
+    this.emitMonitorsChanged();
+
   }
 
   removeMonitor(name) {
     delete this.monitors[name];
+    this.emitMonitorsChanged();
   }
 
   setMonitorHtml(name, html) {
@@ -51,6 +56,7 @@ class MonitorsHandler {
     }
     this.monitors[name].html = html;
     this.emitChange(name, html);
+    //Update monitor HTML in the server as well
   }
 
   registerClientMonitor(name) {
