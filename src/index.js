@@ -1,6 +1,6 @@
 import {render} from 'react-dom';
 import {Router, Route, browserHistory}from 'react-router';
-import App from './containers/App';
+import Server from './containers/Server';
 import React from 'react';
 import Client from './containers/Client';
 import MonitorSetter from './components/MonitorSetter';
@@ -22,7 +22,7 @@ const clearMonitorName = () => {
 
 render((
   <Router history={browserHistory}>
-    <Route path="/server" component={App}/>
+    <Route path="/server" component={Server}/>
     <Route path="/setMonitor" component={MonitorSetter} onEnter={clearMonitorName}/>
     <Route path="/" component={Client} onEnter={redirectNoMonitor}/>
   </Router>
