@@ -10,33 +10,16 @@ class Client extends Component {
 	constructor(props) {
 		super(props);
 	}
-	
-	clearMonitorName = () => {
-		appState.monitorName = null;
-	};
-	
+
 	render() {
-		if (appState.monitorName) {
+		console.log('Rendering Client');
 			return (
 				<div>
 					<HtmlRenderer html={appState.html}/>
-					<textarea type="text" value={appState.initialValue} onChange={this.handleChange}/>
-					<button onClick={this.clearMonitorName}>Change Monitor Name</button>
 					<DevTools />
 				</div>
 			);
-		} else {
-			return (
-				<MonitorSetter/>
-			)
-		}
-	
 	}
-
-	handleChange = (event) => {
-		io.socket.emit('change', event.target.value);
-	}
-}
-;
+};
 
 export default Client;

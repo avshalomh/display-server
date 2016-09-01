@@ -27,11 +27,10 @@ module.exports = {
 		extensions: ['', '.js']
 	},
 	module: {
-		loaders: [{
-			test: /\.js?$/,
-			loaders: ['babel'],
-			exclude: /node_modules/,
-			include: path.join(__dirname, 'src')
-		}]
+		loaders: [
+			{test: /\.js?$/,loaders: ['babel'],	exclude: /node_modules/,include: path.join(__dirname, 'src')},
+			{ test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css" },
+			{ test: /\.useable\.css$/, loader: "style/useable!css" }
+		]
 	}
 };

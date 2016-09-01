@@ -14,6 +14,10 @@ class HtmlRenderer extends Component {
     );
   }
 
+  componentDidMount() {
+    this.refs.htmlContainer.innerHTML = this.props.html;
+  }
+
   shouldComponentUpdate = (nextProps) => {
     return nextProps.html !== this.props.html;
   };
