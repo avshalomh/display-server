@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
+import {observer} from 'mobx-react';
 
 class HtmlRenderer extends Component {
 
-  constructor(props) {
-    console.log(props);
-    super(props);
-  }
+  createMarkup = () => {
+    return {__html: this.props.html}
+  };
 
   render() {
     return (
-      <div ref="htmlContainer">
+      <div dangerouslySetInnerHTML={this.createMarkup()}>
       </div>
     );
-  }
-
-  componentDidMount() {
-    this.refs.htmlContainer.innerHTML = this.props.html;
-  }
-
-  shouldComponentUpdate = (nextProps) => {
-    return nextProps.html !== this.props.html;
-  };
-
-  componentDidUpdate = () => {
-    this.refs.htmlContainer.innerHTML = this.props.html;
   }
 };
 

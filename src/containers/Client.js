@@ -12,7 +12,7 @@ class Client extends Component {
 	}
 
 	render() {
-		console.log('Rendering Client');
+		console.log('Rendering Client', appState.html);
 			return (
 				<div>
 					<HtmlRenderer html={appState.html}/>

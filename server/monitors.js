@@ -50,7 +50,8 @@ class MonitorsHandler {
     this.emitMonitorsChanged();
   }
 
-  setMonitorHtml(name, html) {
+  setMonitorHtml({name, html}) {
+    console.log('Set monitor html', name, html);
     if (!this.monitors[name]) {
       return;
     }
@@ -63,6 +64,8 @@ class MonitorsHandler {
     console.log('Register client monitor', name, this.monitors[name]);
     if (this.monitors[name]) {
       this.emitChange(name, this.monitors[name].html);
+    } else {
+      this.emitChange(name, 'No Input');
     }
   }
 }

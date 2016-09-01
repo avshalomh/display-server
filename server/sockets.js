@@ -23,8 +23,10 @@ class SocketManager {
   }
 
   handleServerConnected(socket) {
+    console.log('Server connected');
     this.serverSockets.push(socket);
     socket.emit('monitors', this.monitorHandler.monitors);
+    socket.on('monitorHtmlChanged', this.monitorHandler.setMonitorHtml.bind(this.monitorHandler));
   }
 
   updateMonitorsChanged(monitors) {
