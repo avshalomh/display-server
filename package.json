@@ -44,6 +44,7 @@
     "css-loader": "^0.24.0",
     "express": "^4.14.0",
     "express-history-api-fallback": "^2.0.0",
+    "lodash": "^4.15.0",
     "mobx": "^2.2.2",
     "mobx-react": "^3.3.1",
     "mobx-react-devtools": "^4.2.0",

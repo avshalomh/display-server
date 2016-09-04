@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import ServerState from '../services/ServerState';
 import io from '../services/socketManager';
+import MonitorStatus from '../components/server/MonitorStatus';
+import MonitorAdder from '../components/server/MonitorAdder';
+
 @observer
 class App extends Component {
 	constructor(props) {
@@ -58,6 +61,7 @@ class App extends Component {
       return (
         <li key={m.name} onClick={this.selectMonitor.bind(this, m)}>
           {m.name}
+          <MonitorStatus monitor={m} />
         </li>
       )
     });
@@ -65,6 +69,8 @@ class App extends Component {
 		return (
 			<ul>
         {monitors}
+        <MonitorAdder />
+        <h3>{this.state.selectedMonitor.name ? this.state.selectedMonitor.name : 'No Monitor Selected'}</h3>
         <textarea ref="selectedMonitorHtml" onChange={this.handleHtmlChange} value={this.state.selectedMonitor.html} />
         <button onClick={this.updateMonitor}>Update</button>
         <iframe ref="previewFrame" ></iframe>

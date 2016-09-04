@@ -9,7 +9,11 @@ const express = require('express');
 const app = express();
 const root = path.resolve('./dist');
 app.use(express.static(path.resolve(root)));
+app.use('/server', function(req, res) {
+  res.sendFile(root + '/index-server.html');
+});
 app.use(fallback('index.html', {root}));
+
 const http = require('http').Server(app);
 
 let io = require('./sockets');

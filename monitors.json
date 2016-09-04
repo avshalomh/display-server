@@ -1,8 +1,20 @@
 {
   "test1": {
-    "html": "test 1 monitor"
+    "html": "Why did it not get updated first?"
   },
   "test2": {
-    "html": "<div style=\"background:blue\">Hello world</div>"
+    "html": "<div style=\"background:red\">Hello world</div>"
+  },
+  "test3": {
+    "html": "Monitor 3",
+    "connections": 0
+  },
+  "test4": {
+    "html": "",
+    "connections": 0
+  },
+  "test": {
+    "html": "<div>Hello World 2</div>",
+    "connections": 0
   }
 }

@@ -16,7 +16,24 @@ class SocketManager {
 
   registerSocketEvents(socket) {
     socket.on('registerMonitor', (name) => {
-      this.monitorHandler.registerClientMonitor(name);
+      if (socket.monitorName !== name) {
+        if (socket.monitorName) {
+          this.monitorHandler.disconnectClientMonitor(socket.monitorName);
+        }
+        this.monitorHandler.registerClientMonitor(name);
+        socket.monitorName = name;
+      }
+    });
+
+    socket.on('disconnect', () => {
+      if (socket.monitorName) {
+        this.monitorHandler.disconnectClientMonitor(socket.monitorName);
+        delete socket.monitorName;
+      }
+    });
+
+    socket.on('fetchMonitors', () => {
+      socket.emit('monitors', this.monitorHandler.monitors);
     });
 
     socket.on('ServerConnected', () => this.handleServerConnected(socket));
@@ -27,6 +44,7 @@ class SocketManager {
     this.serverSockets.push(socket);
     socket.emit('monitors', this.monitorHandler.monitors);
     socket.on('monitorHtmlChanged', this.monitorHandler.setMonitorHtml.bind(this.monitorHandler));
+    socket.on('addMonitor', this.monitorHandler.addMonitor.bind(this.monitorHandler));
   }
 
   updateMonitorsChanged(monitors) {
@@ -39,6 +57,9 @@ class SocketManager {
       this.registerSocketEvents(socket);
     });
     this.emit = this.io.emit.bind(this.io);
+    this.serverEmit = (name, data) => {
+      this.serverSockets.forEach((s) => s.emit(name, data));
+    }
   }
 
   emit() {
