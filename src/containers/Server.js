@@ -29,7 +29,7 @@ class App extends Component {
   };
 
   updateMonitor = () => {
-    var html = this.refs.selectedMonitorHtml.value;
+    var html = this.state.selectedMonitor.html;
     var name = this.state.selectedMonitor.name;
     if (!name || !html) {
       return;
@@ -101,8 +101,7 @@ class App extends Component {
           </div>
           <div className="selected-monitor-container">
             <h4>Update Monitor: {this.state.selectedMonitor.name ? this.state.selectedMonitor.name : 'No Monitor Selected'}</h4>
-            <TextField ref="selectedMonitorHtml"
-                       multiLine={true}
+            <TextField multiLine={true}
                        className="monitor-html-area"
                        rows={10}
                        style={{width: '100%'}}
