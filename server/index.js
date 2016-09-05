@@ -1,5 +1,6 @@
 'use strict';
 const DEV_PORT = 3201;
+const compress = require('compression');
 const isProduction = process.env.NODE_ENV === 'production';
 const fallback = require('express-history-api-fallback');
 let port = isProduction ? process.env.PORT : DEV_PORT;
@@ -12,7 +13,7 @@ const root = path.resolve('./dist');
 
 let indexServer = isProduction ? '/index-prod-server.html' : '/index-server.html';
 let indexClient = isProduction ? 'index-prod.html' : 'index.html';
-
+app.use(compress());
 app.get('/', function(req,res) {
   res.sendFile(root + '/' + indexClient);
 });
