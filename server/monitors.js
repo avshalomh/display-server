@@ -14,6 +14,7 @@ class MonitorsHandler {
   constructor(monitors = {}) {
     this.monitors = monitors;
     this.persistMonitors();
+    this.reSchedule();
   }
 
   persistMonitors() {

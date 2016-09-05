@@ -10,8 +10,22 @@ class UpcomingMonitorUpdates extends Component {
   };
 
   render() {
+    let items = (<span></span>);
+    if (this.props.monitor.schedule) {
+      items = _.map(this.props.monitor.schedule, (s) => {
+        let time = new Date(s.time);
+        return (
+          <div key={s.time}>
+            <span>Time: {time.toString()}</span>
+            <span>Html: {s.html.substring(0, 200)}</span>
+          </div>
+        );
+      });
+    }
       return (
-        <div>{_.get(this.props,'monitor.schedule[0].time')}</div>
+        <div>
+          {items}
+        </div>
       );
   }
 }
