@@ -9,10 +9,12 @@ const express = require('express');
 const app = express();
 const root = path.resolve('./dist');
 app.use(express.static(path.resolve(root)));
+let indexServer = isProduction ? 'index-server-prod.html' : 'index-server.html';
+let indexClient = isProduction ? 'index-prod.html' : 'index.html';
 app.use('/server', function(req, res) {
-  res.sendFile(root + '/index-server.html');
+  res.sendFile(root + indexServer);
 });
-app.use(fallback('index.html', {root}));
+app.use(fallback(indexClient, {root}));
 
 const http = require('http').Server(app);
 
