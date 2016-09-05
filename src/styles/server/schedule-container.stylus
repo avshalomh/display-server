@@ -1,5 +1,8 @@
 .schedule-container {
   flex: 0 0 300px;
+  .date-time-container {
+    display: flex;
+  }
   .no-schedule {
     margin: 5px 0;
     color: rgba(0,0,0, 0.5);

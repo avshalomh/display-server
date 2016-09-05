@@ -3,6 +3,8 @@ import io from '../../services/socketManager';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import FormattedDate from '../FormattedDate';
+import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
 
 class ScheduleAdder extends Component {
 
@@ -16,8 +18,9 @@ class ScheduleAdder extends Component {
     this.setState({html: '', time: new Date(), adding: true});
   };
 
-  onTimeChange = (e) => {
-    this.setState(Object.assign({}, this.state, {time: new Date(parseInt(e.target.value))}));
+
+  onTimeChange = (e, v) => {
+    this.setState(Object.assign({}, this.state, {time: v}));
   };
 
   cancel = (e) => {
@@ -35,18 +38,21 @@ class ScheduleAdder extends Component {
 
   render() {
     if (this.state.adding) {
-      let formattedTime = (new Date(parseFloat(this.state.time))).toString();
-      let timevalue = this.state.time.valueOf();
       return (
         <div>
-          <div>
-            <h5>Select Time</h5>
-            <TextField type="number"
-                       value={this.state.time.valueOf()}
-                       floatingLabelText="Schedule Time (in MS)"
-                       onChange={this.onTimeChange}
-                       />
-            <FormattedDate date={this.state.time} />
+          <h5>Create a new schedule</h5>
+          <div className="date-time-container">
+            <DatePicker
+              style={{width: 100}}
+              floatingLabelText="Select Date"
+                        value={this.state.time} onChange={this.onTimeChange} />
+            <TimePicker
+              style={{width: 100, overflow: 'hidden'}}
+              format="24hr"
+              floatingLabelText="Select Time"
+              value={this.state.time}
+              onChange={this.onTimeChange}
+            />
           </div>
           <TextField multiLine={true}
                      rows={5}
