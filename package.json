@@ -7,7 +7,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress -p",
     "start-prod": "cross-env NODE_ENV=production node server.js",
     "lint": "eslint src",
-    "heroku-start": "npm run build && npm run start-prod"
+    "heroku-start": "npm run start-prod",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
