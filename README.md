@@ -1,20 +1,16 @@
-mobx-react-boilerplate
-=====================
+Monitor controller
 
-A minimal application that combines [MobX](https://mobxjs.github.io/mobx) with [React](https://facebook.github.io/react).
-Supports ES6 and JSX compilation through babel.
+Requirements:
 
-* For a more sophisticated project to start with, see the full TodoMVC implementation: [mobx-react-todomvc](https://github.com/mobxjs/mobx-react-todomvc).
+Node version 6.5.0 At least
 
-### Run the example
+run:
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+# npm install
+# npm start 
 
+For server page go to: http://localhost:3201/server
+For client page go to: http://localhost:3201
 
-### Credits
+To Change/Set Client monitor name: http://localhost:3201/setMonitor
 
-* [Mendix](http://github.com/mendix) for providing the opportunity to battle test this approach (we're hiring!).
