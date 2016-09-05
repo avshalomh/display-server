@@ -8,9 +8,16 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const root = path.resolve('./dist');
-app.use(express.static(path.resolve(root)));
-let indexServer = isProduction ? 'index-server-prod.html' : 'index-server.html';
+
+
+let indexServer = isProduction ? '/index-prod-server.html' : '/index-server.html';
 let indexClient = isProduction ? 'index-prod.html' : 'index.html';
+
+app.get('/', function(req,res) {
+  res.sendFile(root + '/' + indexClient);
+});
+app.use(express.static(path.resolve(root)));
+
 app.use('/server', function(req, res) {
   res.sendFile(root + indexServer);
 });

@@ -24,6 +24,7 @@ class AppState {
   }
 
   registerMonitor() {
+    document.title = this.monitorName;
     io.socket.emit('registerMonitor', this.monitorName);
     localStorage.monitorName = this.monitorName;
   }

@@ -1,5 +1,9 @@
 {
   "Monitor One": {
     "html": "<h4>Example Page</h4>\n<img src=\"http://mstecker.com/images/Europe/russia/MoscowChoralSynagogue-wideviewDSCF4967.jpg\" />"
+  },
+  "Monitor #2": {
+    "html": "Hello Yuval",
+    "schedule": []
   }
 }
