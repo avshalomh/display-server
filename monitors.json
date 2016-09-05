@@ -3,7 +3,13 @@
     "html": "Why did it not get updated first?"
   },
   "test2": {
-    "html": "<div style=\"background:red\">Hello world</div>"
+    "html": "<div style=\"background:red\">Hello world</div>",
+    "schedule": [
+      {
+        "time": 1,
+        "html": "hello"
+      }
+    ]
   },
   "test3": {
     "html": "Monitor 3",

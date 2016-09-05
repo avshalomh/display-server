@@ -1,7 +1,3 @@
-const socketIo = require('socket.io');
-let io;
-var monitorHandler;
-
 class SocketManager {
   constructor() {
     this.sockets = [];
@@ -45,6 +41,8 @@ class SocketManager {
     socket.emit('monitors', this.monitorHandler.monitors);
     socket.on('monitorHtmlChanged', this.monitorHandler.setMonitorHtml.bind(this.monitorHandler));
     socket.on('addMonitor', this.monitorHandler.addMonitor.bind(this.monitorHandler));
+    socket.on('setSchedule', this.monitorHandler.addMonitorSchedule.bind(this.monitorHandler));
+    socket.on('removeSchedule', this.monitorHandler.removeSchedule.bind(this.monitorHandler));
   }
 
   updateMonitorsChanged(monitors) {

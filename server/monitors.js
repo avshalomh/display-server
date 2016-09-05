@@ -84,6 +84,64 @@ class MonitorsHandler {
       io.serverEmit('monitorStatusChange', {name, connected});
     }
   }
+
+  scheduleMonitorUpdate({monitor, monitorName, time, html}) {
+    let delay = time - Date.now();
+    console.log('Scheduling change in : ', delay);
+    setTimeout(() => {
+      this.setMonitorHtml(monitorName, html);
+      _.remove(monitor.schedule, {time: time});
+      this.reSchedule();
+    }, time - Date.now());
+
+  }
+
+  reSchedule() {
+    clearTimeout(this.scheduleTimeout);
+    let minTimeStamp = 0;
+    let scheduledMonitor = null;
+    let now = Date.now();
+    _.forEach(this.monitors, (monitor, monitorName) => {
+      if (!monitor.schedule) {
+        return;
+      }
+      _.forEach(monitor.schedule, (schedule) => {
+        if ((!minTimeStamp || minTimeStamp < schedule.time) && schedule.time > now && schedule.html) {
+          scheduledMonitor = {
+            monitor,
+            monitorName,
+            time: schedule.time,
+            html: schedule.html
+          };
+        }
+      })
+    });
+    if (scheduledMonitor) {
+      this.scheduleMonitorUpdate(scheduledMonitor);
+    }
+  }
+
+  addMonitorSchedule({name, html, time}) {
+    let monitor = this.monitors[name];
+    if (!monitor) {
+      return;
+    }
+    monitor.schedule = monitor.schedule || [];
+    monitor.schedule.push({
+      time: time,
+      html: html
+    });
+    this.reSchedule();
+  }
+
+  removeSchedule({time, name}) {
+    let monitor = this.monitors[name];
+    if (!monitor) {
+      return;
+    }
+    _.remove(monitor.schedule, {time: time});
+    this.reSchedule();
+  }
 }
 
 const Handler = new MonitorsHandler(monitors);
