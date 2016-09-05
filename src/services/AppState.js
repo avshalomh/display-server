@@ -17,10 +17,9 @@ class AppState {
     if (this.monitorName) {
       io.socket.emit('registerMonitor', this.monitorName);
     }
+    io.socket.on('connect', this.registerMonitor.bind(this));
     autorun(() => {
-      if (this.monitorName && (this.previousMonitorName !== this.monitorName || !this.previousMonitorName)) {
-        this.registerMonitor();
-      }
+      this.registerMonitor();
     });
   }
 

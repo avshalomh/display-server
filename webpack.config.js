@@ -1,5 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
+let isProduction = process.env.NODE_ENV === 'production';
+let _ = require('lodash');
 
 const PATHS = {
   appClient: path.resolve(__dirname, 'src', 'indexClient.js'),
@@ -8,21 +10,25 @@ const PATHS = {
   node: path.resolve(__dirname, 'node_modules'),
 };
 
-module.exports = {
-  devtool: 'eval',
-  entry: {
-    'bundle.js': [
-      'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/dev-server',
-      PATHS.appClient
-    ],
-    'bundleServer.js': [
-      'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/dev-server',
-      PATHS.appServer
-    ]
-  }
-  ,
+let entries = {
+  'bundle.js': [
+    PATHS.appClient
+  ],
+  'bundleServer.js': [
+    PATHS.appServer
+  ]
+};
+
+if (!isProduction) {
+  _.forEach(entries, (entry) => {
+    entry.unshift('webpack-dev-server/client?http://localhost:8080');
+    entry.unshift('webpack/hot/dev-server');
+  });
+}
+
+let config =  {
+  devtool: isProduction ? 'cheap-module-source-map' : 'eval',
+  entry: entries,
   output: {
     path: PATHS.build,
     filename: '[name]',
@@ -43,3 +49,12 @@ module.exports = {
     ]
   }
 };
+
+if (isProduction) {
+  config.plugins.push(new webpack.DefinePlugin({
+    "process.env": {
+      NODE_ENV: JSON.stringify("production")
+    }
+  }));
+}
+module.exports = config;
