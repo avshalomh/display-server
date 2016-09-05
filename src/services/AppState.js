@@ -6,6 +6,7 @@ class AppState {
   @observable monitorName;
 
   constructor() {
+    console.log('Setting up app state');
     this.monitorName = localStorage.monitorName;
     this.previousMonitorName = this.monitorName;
     io.socket.on('monitorHtmlChanged', ({name, html}) => {

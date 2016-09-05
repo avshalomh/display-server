@@ -1,32 +1,41 @@
-import React, { Component } from 'react';
-import {observer} from 'mobx-react';
-import serverState from '../../services/ServerState';
-import {toJS} from 'mobx';
+import React, {Component} from 'react';
+import io from '../../services/socketManager';
 import _ from 'lodash';
+import ScheduleAdder from './ScheduleAdder';
+
 class UpcomingMonitorUpdates extends Component {
 
   state = {
     selected: null
   };
 
+  removeSchedule = (name, time) => {
+    io.socket.emit('removeSchedule', {name, time});
+  };
+
   render() {
-    let items = (<span></span>);
-    if (this.props.monitor.schedule) {
+    let items = (<span>No Schedule</span>);
+    if (this.props.monitor.schedule && this.props.monitor.schedule.length) {
       items = _.map(this.props.monitor.schedule, (s) => {
         let time = new Date(s.time);
         return (
-          <div key={s.time}>
+          <li key={s.time}>
             <span>Time: {time.toString()}</span>
             <span>Html: {s.html.substring(0, 200)}</span>
-          </div>
+            <span onClick={this.removeSchedule.bind(null, this.props.monitor.name, s.time)}>X</span>
+          </li>
         );
       });
     }
-      return (
+    return (
+      <div>
+        <h3>Monitor {this.props.monitor.name} Schedule:</h3>
         <div>
           {items}
         </div>
-      );
+        <ScheduleAdder monitor={this.props.monitor}/>
+      </div>
+    );
   }
 }
 

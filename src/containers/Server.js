@@ -5,6 +5,7 @@ import io from '../services/socketManager';
 import MonitorStatus from '../components/server/MonitorStatus';
 import MonitorAdder from '../components/server/MonitorAdder';
 import UpcomingMonitorUpdates from '../components/server/UpcomingMonitorUpdates';
+
 @observer
 class App extends Component {
   constructor(props) {
@@ -16,14 +17,12 @@ class App extends Component {
 
 
   selectMonitor = (monitor) => {
-    console.log('Selecting monitor', monitor);
     this.setState({
       selectedMonitor: monitor
     });
   };
 
   updateMonitor = () => {
-    console.log('Updating monitor');
     var html = this.refs.selectedMonitorHtml.value;
     var name = this.state.selectedMonitor.name;
     if (!name || !html) {
@@ -43,7 +42,6 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-
     var iframe = this.refs.previewFrame;
     if (!iframe) {
       return;
@@ -55,18 +53,21 @@ class App extends Component {
   };
 
   render() {
-    console.log('Rendering');
-    let monitors = ServerState.arrayMonitors.map((m) => {
+    let monitors = _.map(ServerState.monitors, (monitor, name)  => {
+      monitor.name = name;
       return (
-        <li key={m.name} onClick={this.selectMonitor.bind(this, m)}>
-          {m.name}
-          <MonitorStatus monitor={m}/>
+        <li key={name} onClick={this.selectMonitor.bind(this, monitor)}>
+          {name}
+          <MonitorStatus monitor={monitor}/>
         </li>
       )
     });
 
-    if (this.state.selectedMonitor.name) {
-
+    let hasSelected = this.state.selectedMonitor.name &&  ServerState.monitors[this.state.selectedMonitor.name];
+    if (hasSelected) {
+      let name = this.state.selectedMonitor.name;
+      this.state.selectedMonitor = ServerState.monitors[this.state.selectedMonitor.name];
+      this.state.selectedMonitor.name = name;
       return (
         <ul>
           {monitors}

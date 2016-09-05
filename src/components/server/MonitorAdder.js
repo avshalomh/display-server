@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {observer} from 'mobx-react';
 import serverState from '../../services/ServerState';
-import {toJS} from 'mobx';
 
 class MonitorAdder extends Component {
 

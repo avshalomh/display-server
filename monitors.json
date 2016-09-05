@@ -4,12 +4,7 @@
   },
   "test2": {
     "html": "<div style=\"background:red\">Hello world</div>",
-    "schedule": [
-      {
-        "time": 1,
-        "html": "hello"
-      }
-    ]
+    "schedule": []
   },
   "test3": {
     "html": "Monitor 3",
@@ -17,10 +12,12 @@
   },
   "test4": {
     "html": "",
-    "connections": 0
+    "connections": 0,
+    "schedule": []
   },
   "test": {
-    "html": "<div>Hello World 2</div>",
-    "connections": 0
+    "html": "Amazing Stuff",
+    "connections": 0,
+    "schedule": []
   }
 }

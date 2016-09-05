@@ -20,7 +20,6 @@ class MonitorsHandler {
   persistMonitors() {
     var forSave = _.cloneDeep(this.monitors);
     _.forEach(forSave, (value) => {
-      console.log(value);
       delete value.connected;
     });
     fs.writeFile('./monitors.json', JSON.stringify(forSave, null, 2), 'utf8');
@@ -32,6 +31,7 @@ class MonitorsHandler {
   }
 
   emitMonitorsChanged() {
+    console.log('Updating monitors', this.monitors);
     io.updateMonitorsChanged(this.monitors);
     this.persistMonitors();
   }
@@ -88,12 +88,10 @@ class MonitorsHandler {
 
   scheduleMonitorUpdate({monitor, monitorName, time, html}) {
     let delay = time - Date.now();
-    console.log('Scheduling change in : ', delay);
     setTimeout(() => {
-      this.setMonitorHtml(monitorName, html);
-      _.remove(monitor.schedule, {time: time});
-      this.reSchedule();
-    }, time - Date.now());
+      this.setMonitorHtml({name: monitorName, html});
+      this.removeSchedule({time, name: monitorName});
+    }, delay);
 
   }
 
@@ -106,8 +104,9 @@ class MonitorsHandler {
       if (!monitor.schedule) {
         return;
       }
+      monitor.schedule = _.filter(monitor.schedule, (s) => s.time > now - 1000);
       _.forEach(monitor.schedule, (schedule) => {
-        if ((!minTimeStamp || minTimeStamp < schedule.time) && schedule.time > now && schedule.html) {
+        if ((!minTimeStamp || minTimeStamp < schedule.time) && schedule.time > (now - 1000) && schedule.html) {
           scheduledMonitor = {
             monitor,
             monitorName,
@@ -133,6 +132,7 @@ class MonitorsHandler {
       html: html
     });
     this.reSchedule();
+    this.emitMonitorsChanged();
   }
 
   removeSchedule({time, name}) {
@@ -142,6 +142,7 @@ class MonitorsHandler {
     }
     _.remove(monitor.schedule, {time: time});
     this.reSchedule();
+    this.emitMonitorsChanged();
   }
 }
 
