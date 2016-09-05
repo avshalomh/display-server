@@ -5,9 +5,9 @@ import {observer} from 'mobx-react';
 class MonitorStatus extends Component {
 
   render() {
-    if (this.props.monitor.connected) {
+    if (this.props.connected) {
       return (
-        <span>{this.props.monitor.connected} Monitors Connected</span>
+        <span>{this.props.connected} Monitors Connected</span>
       )
     } else {
       return (

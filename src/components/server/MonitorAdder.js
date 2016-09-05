@@ -16,7 +16,6 @@ class MonitorAdder extends Component {
   };
 
   addMonitor = () => {
-    console.log(this.state.tempMonitorName);
     serverState.addMonitor(this.state.tempMonitorName, {
       html: '',
       connections: 0

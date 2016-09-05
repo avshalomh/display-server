@@ -58,7 +58,7 @@ class App extends Component {
       return (
         <li key={name} onClick={this.selectMonitor.bind(this, monitor)}>
           {name}
-          <MonitorStatus monitor={monitor}/>
+          <MonitorStatus connected={monitor.connected}/>
         </li>
       )
     });

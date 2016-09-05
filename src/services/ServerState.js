@@ -1,4 +1,4 @@
-import {observable, autorun, toJS, computed} from 'mobx';
+import {observable, autorun, action, toJS} from 'mobx';
 import io from './socketManager';
 
 class ServerState {
@@ -12,10 +12,7 @@ class ServerState {
     })
   }
 
-  addMonitor(name, monitor) {
-    let monitors = toJS(this.monitors);
-    monitors[name] = monitor;
-    this.monitors = monitors;
+  addMonitor(name) {
     io.socket.emit('addMonitor', name);
   }
 

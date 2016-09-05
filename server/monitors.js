@@ -1,6 +1,5 @@
 let mobx = require('mobx');
 let fs = require('fs');
-let autorun = mobx.autorun;
 let io = require('./sockets');
 let _ = require('lodash');
 var monitors;
@@ -31,7 +30,6 @@ class MonitorsHandler {
   }
 
   emitMonitorsChanged() {
-    console.log('Updating monitors', this.monitors);
     io.updateMonitorsChanged(this.monitors);
     this.persistMonitors();
   }
@@ -42,7 +40,7 @@ class MonitorsHandler {
     }
     this.monitors[name] = {
       html: '',
-      connections: 0
+      connected: 0
     };
     this.emitMonitorsChanged();
 
@@ -54,7 +52,6 @@ class MonitorsHandler {
   }
 
   setMonitorHtml({name, html}) {
-    console.log('Monitor html changed', name, html);
     if (!this.monitors[name]) {
       return;
     }
@@ -65,7 +62,6 @@ class MonitorsHandler {
   }
 
   registerClientMonitor(name) {
-    console.log('Register client monitor', name, this.monitors[name]);
     if (this.monitors[name]) {
       this.emitChange(name, this.monitors[name].html);
       this.monitors[name].connected = this.monitors[name].connected || 0;
