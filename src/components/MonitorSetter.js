@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import appState from '../services/AppState';
 import io from '../services/socketManager';
 import _ from 'lodash';
+import {List, ListItem} from 'material-ui/List';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+require('../styles/client/list.stylus');
 class MonitorSetter extends Component {
   state = {
 
@@ -13,17 +16,21 @@ class MonitorSetter extends Component {
       this.setState({
         monitors: monitors
       });
-    })
+    });
   }
   render() {
     if (this.state.monitors) {
-      let list = _.map(this.state.monitors, (value, key) => {
+      let list = <List>{_.map(this.state.monitors, (value, key) => {
         return (
-          <div key={key} onClick={this.setMonitor.bind(null, key)}>{key}</div>
+          <ListItem className="list-monitor" key={key} primaryText={key}
+                    onClick={this.setMonitor.bind(null, key)}
+                    leftIcon={<ContentInbox/>}
+          />
         )
-      });
+      })
+      }</List>;
       return (
-        <div>
+        <div className="list-container">
           <h3>
             Select Monitor
           </h3>
@@ -33,7 +40,9 @@ class MonitorSetter extends Component {
       )
     } else {
       return (
-        <div>Fetching monitors</div>
+        <div className="list-container">
+          <div className="list-fetching">Fetching monitors...</div>
+        </div>
       )
     }
   };

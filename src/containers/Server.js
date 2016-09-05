@@ -6,6 +6,13 @@ import MonitorStatus from '../components/server/MonitorStatus';
 import MonitorAdder from '../components/server/MonitorAdder';
 import UpcomingMonitorUpdates from '../components/server/UpcomingMonitorUpdates';
 
+import {List, ListItem} from 'material-ui/List';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import TextField from 'material-ui/TextField';
+
+import RaisedButton from 'material-ui/RaisedButton';
+require('../styles/server/main.stylus');
+
 @observer
 class App extends Component {
   constructor(props) {
@@ -53,15 +60,26 @@ class App extends Component {
   };
 
   render() {
-    let monitors = _.map(ServerState.monitors, (monitor, name)  => {
-      monitor.name = name;
-      return (
-        <li key={name} onClick={this.selectMonitor.bind(this, monitor)}>
-          {name}
-          <MonitorStatus connected={monitor.connected}/>
-        </li>
-      )
-    });
+    let monitors = (
+      <span>
+        <List className="monitor-list-container">
+          <h3>Monitors List</h3>
+          {_.map(ServerState.monitors, (monitor, name)  => {
+            monitor.name = name;
+            return (
+              <ListItem key={name} onClick={this.selectMonitor.bind(this, monitor)}>
+                <div className="monitor-list-item">
+                  <span title={name} className="monitor-list-name">{name}</span>
+                  <MonitorStatus connected={monitor.connected}/>
+                </div>
+              </ListItem>
+            );})
+          }
+        </List>
+        <MonitorAdder />
+      </span>
+    );
+
 
     let hasSelected = this.state.selectedMonitor.name &&  ServerState.monitors[this.state.selectedMonitor.name];
     if (hasSelected) {
@@ -69,22 +87,35 @@ class App extends Component {
       this.state.selectedMonitor = ServerState.monitors[this.state.selectedMonitor.name];
       this.state.selectedMonitor.name = name;
       return (
-        <ul>
-          {monitors}
-          <MonitorAdder />
-          <h3>{this.state.selectedMonitor.name ? this.state.selectedMonitor.name : 'No Monitor Selected'}</h3>
-          <textarea ref="selectedMonitorHtml" onChange={this.handleHtmlChange} value={this.state.selectedMonitor.html}/>
-          <button onClick={this.updateMonitor}>Update</button>
-          <iframe ref="previewFrame"></iframe>
+        <div className="server-container">
+          <div className="list-container">
+            {monitors}
+          </div>
+          <div className="selected-monitor-container">
+            <h4>Update Monitor: {this.state.selectedMonitor.name ? this.state.selectedMonitor.name : 'No Monitor Selected'}</h4>
+            <TextField ref="selectedMonitorHtml"
+                       multiLine={true}
+                       className="monitor-html-area"
+                       rows={10}
+                       style={{width: '100%'}}
+                       rowsMax={10}
+                       floatingLabelText="Monitor HTML"
+                       onChange={this.handleHtmlChange}
+                       value={this.state.selectedMonitor.html}/>
+            <RaisedButton fullWidth={false} style={{width: 'auto'}} primary={true} label="Update" onClick={this.updateMonitor} />
+            <h4>Monitor Preview:</h4>
+            <iframe className="preview-iframe" ref="previewFrame"></iframe>
+          </div>
           <UpcomingMonitorUpdates monitor={this.state.selectedMonitor}/>
-        </ul>
+        </div>
       );
     } else {
       return (
-        <ul>
-          {monitors}
-          <MonitorAdder />
-        </ul>
+        <div className="server-container">
+          <div className="list-container">
+            {monitors}
+          </div>
+        </div>
       );
     }
   }

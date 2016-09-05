@@ -1,0 +1,7 @@
+.monitor-adder-container {
+  margin-left: 10px;
+  .monitor-adder-form {
+    display: flex;
+    flex-direction: column;
+  }
+}

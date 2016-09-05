@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 let isProduction = process.env.NODE_ENV === 'production';
 let _ = require('lodash');
+let autoprefixer = require('autoprefixer');
 
 const PATHS = {
   appClient: path.resolve(__dirname, 'src', 'indexClient.js'),
@@ -45,9 +46,10 @@ let config =  {
     loaders: [
       {test: /\.js?$/, loaders: ['babel'], exclude: /node_modules/, include: path.join(__dirname, 'src')},
       {test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css"},
-      {test: /\.useable\.css$/, loader: "style/useable!css"}
+      {test: /\.stylus$/, loader: "style!css!stylus!postcss"}
     ]
-  }
+  },
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
 };
 
 if (isProduction) {

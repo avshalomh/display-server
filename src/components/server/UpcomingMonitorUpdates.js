@@ -29,7 +29,7 @@ class UpcomingMonitorUpdates extends Component {
     }
     return (
       <div>
-        <h3>Monitor {this.props.monitor.name} Schedule:</h3>
+        <h3>{this.props.monitor.name} Schedule:</h3>
         <div>
           {items}
         </div>

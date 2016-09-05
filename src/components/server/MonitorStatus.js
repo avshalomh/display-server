@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 
+require('../../styles/server/connection-status.stylus');
 @observer
 class MonitorStatus extends Component {
 
   render() {
     if (this.props.connected) {
       return (
-        <span>{this.props.connected} Monitors Connected</span>
+        <div className="connected-wrapper">
+          <span className="has-connections">{this.props.connected} Monitor(s)</span>
+        </div>
       )
     } else {
       return (
-        <span>No Connections</span>
+        <div className="connected-wrapper">
+          <span className="no-connection">No Connections</span>
+        </div>
       )
     }
   }

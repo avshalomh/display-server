@@ -1,0 +1,25 @@
+.connected-wrapper {
+  margin-left: 5px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  .no-connection {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .has-connections {
+    color: green;
+  }
+  .indicator {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    margin-right: 3px;
+    &.green-indicator {
+      background: green;
+    }
+    &.orange-indicator {
+      background: orange;
+    }
+  }
+}
