@@ -31,10 +31,6 @@ class App extends Component {
   updateMonitor = () => {
     var html = this.state.selectedMonitor.html;
     var name = this.state.selectedMonitor.name;
-    if (!name || !html) {
-      return;
-    }
-
     io.socket.emit('monitorHtmlChanged', {name, html});
 
   };
