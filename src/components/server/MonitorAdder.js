@@ -25,11 +25,9 @@ class MonitorAdder extends Component {
     });
     this.state.adding = false;
     this.updateState();
-    //TODO: socket update
   };
 
   get isDisabled() {
-    console.log('Disabled', this.state);
     return this.state.alreadyExists || !this.state.tempMonitorName;
   }
 

@@ -5,9 +5,8 @@ import io from '../services/socketManager';
 import MonitorStatus from '../components/server/MonitorStatus';
 import MonitorAdder from '../components/server/MonitorAdder';
 import UpcomingMonitorUpdates from '../components/server/UpcomingMonitorUpdates';
-
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import RemoveIcon from 'material-ui/svg-icons/content/clear';
 import TextField from 'material-ui/TextField';
 
 import RaisedButton from 'material-ui/RaisedButton';
@@ -48,6 +47,12 @@ class App extends Component {
     });
   };
 
+  removeMonitor(monitor, event) {
+    io.socket.emit('removeMonitor', {name: monitor.name});
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   componentDidUpdate = () => {
     var iframe = this.refs.previewFrame;
     if (!iframe) {
@@ -71,6 +76,9 @@ class App extends Component {
                 <div className="monitor-list-item">
                   <span title={name} className="monitor-list-name">{name}</span>
                   <MonitorStatus connected={monitor.connected}/>
+                  <span style={{flex: 1}} />
+                  <RemoveIcon className={monitor.connected ? 'monitor-remove-disabled' : ''} 
+                              onClick={this.removeMonitor.bind(this, monitor)} />
                 </div>
               </ListItem>
             );})
@@ -102,11 +110,13 @@ class App extends Component {
                        floatingLabelText="Monitor HTML"
                        onChange={this.handleHtmlChange}
                        value={this.state.selectedMonitor.html}/>
-            <RaisedButton fullWidth={false} style={{width: 'auto'}} primary={true} label="Update" onClick={this.updateMonitor} />
+            <div className="update-monitor-button">
+              <RaisedButton primary={true} label="Update" onClick={this.updateMonitor} />
+            </div>
             <h4>Monitor Preview:</h4>
             <iframe className="preview-iframe" ref="previewFrame"></iframe>
           </div>
-          <UpcomingMonitorUpdates monitor={this.state.selectedMonitor}/>
+          <UpcomingMonitorUpdates className="schedule-pane" monitor={this.state.selectedMonitor}/>
         </div>
       );
     } else {

@@ -5,13 +5,17 @@
     border: 1px solid #d9d9d9;
     border-bottom: none;
     padding-right: 10px;
-    width: 280px;
+    width: 340px;
   }
+
   .selected-monitor-container {
     padding: 0 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
+    .update-monitor-button {
+      max-width: 150px;
+    }
     .preview-iframe {
       height: 400px;
       border: 1px solid #d9d9d9;
@@ -30,6 +34,10 @@
       display: inline-block;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .monitor-remove-disabled {
+      pointer-events: none;
+      opacity: 0.3;
     }
     h3 {
       margin-left: 10px;

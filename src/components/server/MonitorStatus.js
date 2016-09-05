@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 
 require('../../styles/server/connection-status.stylus');
+
 @observer
 class MonitorStatus extends Component {
-
   render() {
     if (this.props.connected) {
       return (

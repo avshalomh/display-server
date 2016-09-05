@@ -11,11 +11,13 @@ try {
 
 class MonitorsHandler {
   constructor(monitors = {}) {
+    _.forEach(monitors, (mon) => {
+      mon.connected = 0;
+    });
     this.monitors = monitors;
     this.persistMonitors();
     this.reSchedule();
   }
-
   persistMonitors() {
     var forSave = _.cloneDeep(this.monitors);
     _.forEach(forSave, (value) => {
@@ -46,7 +48,7 @@ class MonitorsHandler {
 
   }
 
-  removeMonitor(name) {
+  removeMonitor({name: name}) {
     delete this.monitors[name];
     this.emitMonitorsChanged();
   }
@@ -84,7 +86,11 @@ class MonitorsHandler {
 
   scheduleMonitorUpdate({monitor, monitorName, time, html}) {
     let delay = time - Date.now();
-    setTimeout(() => {
+    //do not set too high delay, they happen instantly
+    if (delay >= 2147483647) {
+      return;
+    }
+    this.scheduleTimeout = setTimeout(() => {
       this.setMonitorHtml({name: monitorName, html});
       this.removeSchedule({time, name: monitorName});
     }, delay);

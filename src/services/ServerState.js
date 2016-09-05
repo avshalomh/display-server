@@ -1,4 +1,4 @@
-import {observable, autorun, action, toJS} from 'mobx';
+import {observable, autorun} from 'mobx';
 import io from './socketManager';
 
 class ServerState {

@@ -1,0 +1,16 @@
+.schedule-container {
+  flex: 0 0 300px;
+  .no-schedule {
+    margin: 5px 0;
+    color: rgba(0,0,0, 0.5);
+  }
+  .schedule-list-item {
+    display: flex;
+    align-items: center;
+    .date-time-html {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
