@@ -1,0 +1,27 @@
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fieldset {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+  }
+  .login-form {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    .login-invalid {
+      padding: 10px 0;
+      color: red;
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      &.invalid-visible {
+        opacity: 1;
+      }
+    }
+  }
+}

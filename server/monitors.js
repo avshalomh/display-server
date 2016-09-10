@@ -15,6 +15,7 @@ class MonitorsHandler {
       mon.connected = 0;
     });
     this.monitors = monitors;
+    this.monitorsSchedule = {};
     this.persistMonitors();
     this.reSchedule();
   }
@@ -84,43 +85,46 @@ class MonitorsHandler {
     }
   }
 
-  scheduleMonitorUpdate({monitor, monitorName, time, html}) {
+
+  clearMonitorSchedule(name) {
+    let scheduled = this.monitorsSchedule[name];
+    if (scheduled) {
+      clearTimeout(scheduled);
+    }
+  }
+
+  setMonitorSchedule({name, html, time}) {
+    this.clearMonitorSchedule(name);
     let delay = time - Date.now();
     //do not set too high delay, they happen instantly
     if (delay >= 2147483647) {
       return;
     }
-    this.scheduleTimeout = setTimeout(() => {
-      this.setMonitorHtml({name: monitorName, html});
-      this.removeSchedule({time, name: monitorName});
+    this.monitorsSchedule[name] = setTimeout(() => {
+      this.setMonitorHtml({name, html});
+      this.removeSchedule({time, name});
     }, delay);
-
   }
 
   reSchedule() {
-    clearTimeout(this.scheduleTimeout);
-    let minTimeStamp = 0;
-    let scheduledMonitor = null;
     let now = Date.now();
     _.forEach(this.monitors, (monitor, monitorName) => {
+      monitor.schedule = _.filter(monitor.schedule, (s) => s.time > now - 60000);
       if (!monitor.schedule) {
+        this.clearMonitorSchedule(monitorName);
         return;
       }
-      monitor.schedule = _.filter(monitor.schedule, (s) => s.time > now - 1000);
+      let minTime = Number.MAX_SAFE_INTEGER;
+      let scheduledHtml = '';
       _.forEach(monitor.schedule, (schedule) => {
-        if ((!minTimeStamp || minTimeStamp < schedule.time) && schedule.time > (now - 1000) && schedule.html) {
-          scheduledMonitor = {
-            monitor,
-            monitorName,
-            time: schedule.time,
-            html: schedule.html
-          };
+        let time = schedule.time;
+        if (time < minTime) {
+          minTime = time;
+          scheduledHtml = schedule.html;
         }
-      })
+      });
+      this.setMonitorSchedule({name: monitorName, html: scheduledHtml, time: minTime});
     });
-    if (scheduledMonitor) {
-      this.scheduleMonitorUpdate(scheduledMonitor);
-    }
   }
 
   addMonitorSchedule({name, html, time}) {
@@ -142,6 +146,7 @@ class MonitorsHandler {
     if (!monitor) {
       return;
     }
+    this.clearMonitorSchedule(name);
     _.remove(monitor.schedule, {time: time});
     this.reSchedule();
     this.emitMonitorsChanged();
