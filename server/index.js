@@ -27,12 +27,10 @@ app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(sessionMiddleware);
-app.use(express.static(path.resolve(root)));
 app.get('/login', (req,res) => {
   res.sendFile(root + '/' + indexLogin);
 });
 app.post('/doLogin', require('./login-handler'));
-app.use(forceLoginMiddleware);
 
 app.get('/', function(req,res) {
   res.sendFile(root + '/' + indexClient);
@@ -41,7 +39,10 @@ app.get('/', function(req,res) {
 app.use('/server', function(req, res) {
   res.sendFile(root + indexServer);
 });
+app.use(express.static(path.resolve(root)));
 app.use(fallback(indexClient, {root}));
+
+app.use(forceLoginMiddleware);
 
 const http = require('http').Server(app);
 
