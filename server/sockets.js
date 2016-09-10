@@ -1,3 +1,5 @@
+const sessionMiddleware = require('./session-handler').middleware;
+
 class SocketManager {
   constructor() {
     this.sockets = [];
@@ -36,7 +38,6 @@ class SocketManager {
   }
 
   handleServerConnected(socket) {
-    console.log('Server connected');
     this.serverSockets.push(socket);
     socket.emit('monitors', this.monitorHandler.monitors);
     socket.on('monitorHtmlChanged', this.monitorHandler.setMonitorHtml.bind(this.monitorHandler));
@@ -51,10 +52,22 @@ class SocketManager {
   }
 
   registerEvents() {
+    this.io.use((socket, next) => {
+      sessionMiddleware(socket.request, socket.request.res, next);
+    });
+    this.io.use((socket, next) => {
+      if (!socket.request.session.signedIn) {
+        console.log('Unauthorized');
+        next(new Error('Authentication error'));
+      } else {
+        next(null);
+      }
+    });
     this.io.on('connection', (socket) => {
       this.sockets.push(socket);
       this.registerSocketEvents(socket);
     });
+
     this.emit = this.io.emit.bind(this.io);
     this.serverEmit = (name, data) => {
       this.serverSockets.forEach((s) => s.emit(name, data));

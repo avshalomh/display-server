@@ -7,6 +7,7 @@ let autoprefixer = require('autoprefixer');
 const PATHS = {
   appClient: path.resolve(__dirname, 'src', 'indexClient.js'),
   appServer: path.resolve(__dirname, 'src', 'indexServer.js'),
+  login: path.resolve(__dirname, 'src', 'indexLogin.js'),
   build: path.resolve(__dirname, 'dist', 'build'),
   node: path.resolve(__dirname, 'node_modules'),
 };
@@ -17,6 +18,9 @@ let entries = {
   ],
   'bundleServer.js': [
     PATHS.appServer
+  ],
+  'bundleLogin.js': [
+    PATHS.login
   ]
 };
 

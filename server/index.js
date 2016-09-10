@@ -9,15 +9,34 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const root = path.resolve('./dist');
+const sessionMiddleware = require('./session-handler').middleware;
+const bodyParser = require('body-parser');
 
+let forceLoginMiddleware = (req,res,next) => {
+  if (!req.session.signedIn) {
+    res.status(403).send('403');
+  } else {
+    next();
+  }
+};
 
 let indexServer = isProduction ? '/index-prod-server.html' : '/index-server.html';
 let indexClient = isProduction ? 'index-prod.html' : 'index.html';
+let indexLogin = isProduction ? './index-login-prod.html' : 'index-login.html';
 app.use(compress());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(sessionMiddleware);
+app.use(express.static(path.resolve(root)));
+app.get('/login', (req,res) => {
+  res.sendFile(root + '/' + indexLogin);
+});
+app.post('/doLogin', require('./login-handler'));
+app.use(forceLoginMiddleware);
+
 app.get('/', function(req,res) {
   res.sendFile(root + '/' + indexClient);
 });
-app.use(express.static(path.resolve(root)));
 
 app.use('/server', function(req, res) {
   res.sendFile(root + indexServer);
