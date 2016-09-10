@@ -18,8 +18,9 @@ class UpcomingMonitorUpdates extends Component {
   render() {
     let items = (<div className="no-schedule">No Schedule</div>);
     if (this.props.monitor.schedule && this.props.monitor.schedule.length) {
+      let sortedSchedule = _.sortBy(this.props.monitor.schedule, 'time');
       items = (<List>
-          { _.map(this.props.monitor.schedule, (s) => {
+          { _.map(sortedSchedule, (s) => {
             let time = new Date(s.time);
             return (
               <ListItem key={s.time}>
