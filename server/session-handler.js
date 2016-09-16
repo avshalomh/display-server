@@ -1,9 +1,12 @@
 const session = require('express-session');
-const store = require('session-file-store')(session);
+const store = require('connect-mongo')(session);
 const isProduction = process.env.NODE_ENV === 'production';
+const mongoose = require('./mongoose').mongoose;
 
 let sessionMiddleware = session({
-  store: new store(),
+  store: new store({
+    mongooseConnection: mongoose.connection
+  }),
   secret: process.env.COOKIE_SECRET || 'secret',
   resave: true,
   saveUninitialized: true,

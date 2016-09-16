@@ -7,9 +7,6 @@ class ServerState {
 
   constructor() {
     this.bindSockets();
-    autorun(() => {
-      console.log('Something changed in ServerState');
-    })
   }
 
   addMonitor(name) {

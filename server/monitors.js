@@ -2,29 +2,44 @@ let mobx = require('mobx');
 let fs = require('fs');
 let io = require('./sockets');
 let _ = require('lodash');
-var monitors;
-try {
-  monitors = JSON.parse(fs.readFileSync('./monitors.json','utf8'));
-} catch (e) {
-  monitors = {};
-}
+let monitors = require('./db/models/monitors');
 
 class MonitorsHandler {
-  constructor(monitors = {}) {
-    _.forEach(monitors, (mon) => {
-      mon.connected = 0;
+  constructor() {
+    monitors.find({}).then((dbEntity) => {
+      if (dbEntity.length) {
+        this.monitors = dbEntity[0].monitors || {};
+        this.monitorEntity = dbEntity[0];
+      } else {
+        this.monitorEntity = new monitors({
+          monitors: {}
+        });
+        this.monitorEntity.markModified('monitors');
+        this.monitorEntity.save();
+      }
+      if (!this.monitorEntity.monitors) {
+        this.monitorEntity.monitors = {};
+      }
+      this.monitors = this.monitorEntity.monitors;
+      _.forEach(this.monitors, (mon) => {
+        mon.connected = 0;
+      });
+      this.monitorsSchedule = {};
+      // this.persistMonitors();
+      this.reSchedule();
     });
-    this.monitors = monitors;
-    this.monitorsSchedule = {};
-    this.persistMonitors();
-    this.reSchedule();
+
   }
   persistMonitors() {
     var forSave = _.cloneDeep(this.monitors);
     _.forEach(forSave, (value) => {
       delete value.connected;
     });
-    fs.writeFile('./monitors.json', JSON.stringify(forSave, null, 2), 'utf8');
+    this.monitorEntity.update({
+      monitors: forSave
+    }).then(() => {
+      console.log('Saved monitors to DB');
+    });
   }
 
   emitChange(name, html) {
@@ -153,7 +168,7 @@ class MonitorsHandler {
   }
 }
 
-const Handler = new MonitorsHandler(monitors);
+const Handler = new MonitorsHandler();
 
 module.exports = {
   Handler

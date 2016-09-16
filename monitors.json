@@ -1,21 +1,11 @@
 {
-  "Scheduling": {
-    "html": "Faster",
+  "Test": {
+    "html": "",
     "schedule": [
       {
-        "time": 1473526546196,
-        "html": "Scheduled HTML"
+        "time": 1474035331013,
+        "html": "kjhkjh"
       }
     ]
-  },
-  "New Monitor": {
-    "html": "Schedule",
-    "schedule": []
-  }
-}
-  },
-  "New Monitor": {
-    "html": "Schedule",
-    "schedule": []
   }
 }

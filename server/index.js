@@ -63,7 +63,7 @@ if (!isProduction) {
   new WebpackDevServer(webpack(webpackConfig), {
     hot: true,
     noInfo: true,
-    quiet: false,
+    quiet: true,
     publicPath: '/build/',
     proxy: {'*': `http://localhost:${port}`},
     stats: {colors: true},
