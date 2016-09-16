@@ -8,6 +8,9 @@ if (!port) port = DEV_PORT;
 const path = require('path');
 const express = require('express');
 const app = express();
+if (isProduction) {
+  app.set('trust proxy', 1);
+}
 const root = path.resolve('./dist');
 const sessionMiddleware = require('./session-handler').middleware;
 const bodyParser = require('body-parser');
