@@ -7,13 +7,15 @@ let sessionMiddleware = session({
   store: new store({
     mongooseConnection: mongoose.connection
   }),
+  cookie: {
+    secure: isProduction,
+    //3 years
+    maxAge: 1000 * 60 * 60 * 24 * 365 * 3
+  },
   secret: process.env.COOKIE_SECRET || 'secret',
   resave: true,
   saveUninitialized: true,
   rolling: true,
-  secure: isProduction,
-  //3 years
-  maxAge: 1000 * 60 * 60 * 24 * 365 * 3
 });
 
 module.exports = {
