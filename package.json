@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/phouri/display-server.git"
+    "url": "https://github.com/avshalomh/display-server.git"
   },
   "author": "Pinhas Houri <pinhasph@gmail.com> (http://github.com/phouri)",
   "license": "MIT",
