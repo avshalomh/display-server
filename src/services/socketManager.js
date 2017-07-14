@@ -1,6 +1,6 @@
-import io from 'socket.io/node_modules/socket.io-client';
-// was - import io from 'socket.io-client/socket.io';
-// t
+
+// import io from 'socket.io/node_modules/socket.io-client';
+import io from 'socket.io-client/socket.io';
 
 const socketIo = io.connect(window.location.host, {reconnect: true});
 
