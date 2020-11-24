@@ -8,7 +8,7 @@ function doLogin(req,res,next) {
     req.session.signedIn = true;
     res.send('OK');
   } else {
-    res.status(403).send('Unauthorized');
+    res.status(403).send('Unauthorized-doLogin');
   }
 }
 
