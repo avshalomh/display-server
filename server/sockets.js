@@ -58,8 +58,7 @@ class SocketManager {
     this.io.use((socket, next) => {
       if (!socket.request.session.signedIn) {
         console.log('Unauthorized-socket');
-        // next(new Error('Authentication error')); test 
-        next(null);
+        next(new Error('Authentication error'));
       } else {
         next(null);
       }
