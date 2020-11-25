@@ -62,7 +62,7 @@
     "stylus-loader": "^2.3.1",
     "webpack": "^1.13.1",
     "web-dev-middleware": "^1.6.1",
-    "web-dev-server": "^3.1.11",
+    "webpack-dev-server": "^3.1.11",
     "web-hot-middleware": "^2.12.2"
   }
 }
