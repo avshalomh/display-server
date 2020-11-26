@@ -17,8 +17,8 @@
   "author": "Pinhas Houri <pinhasph@gmail.com> (http://github.com/phouri)",
   "license": "MIT",
   "engines": {
-    "npm": "5.4.2",
-    "node": "8.8.1"
+    "npm": "7.0.14",
+    "node": "15.3.0"
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
