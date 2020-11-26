@@ -17,11 +17,12 @@
   "author": "Pinhas Houri <pinhasph@gmail.com> (http://github.com/phouri)",
   "license": "MIT",
   "engines": {
-    "node": "12.16.3"
+    "npm": "7.0.14",
+    "node": "15.3.0"
   },
   "dependencies": {
     "autoprefixer": "^6.4.1",
-    "axios": "^0.18.1",
+    "axios": "^0.14.0",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.1.0",
     "babel-loader": "^6.2.4",
@@ -35,7 +36,7 @@
     "cookie-parser": "^1.4.3",
     "cross-env": "^2.0.1",
     "css-loader": "^0.24.0",
-    "eslint": "^4.18.2",
+    "eslint": "^3.4.0",
     "eslint-plugin-react": "^6.2.0",
     "express": "^4.14.0",
     "express-history-api-fallback": "^2.0.0",
@@ -47,7 +48,7 @@
     "mobx-react": "^3.3.1",
     "mobx-react-devtools": "^4.2.0",
     "moment": "^2.14.1",
-    "mongoose": "^5.10.15",
+    "mongoose": "^4.6.0",
     "postcss": "^5.1.2",
     "postcss-loader": "^0.11.1",
     "react": "^15.4",
@@ -62,7 +63,7 @@
     "stylus-loader": "^2.3.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-dev-server": "^3.1.11",
+    "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.12.2"
   }
 }
