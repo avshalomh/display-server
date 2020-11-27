@@ -4,7 +4,7 @@
   "description": "Server and Client for displaying on Static Screens",
   "scripts": {
     "start": "node server.js",
-    "build": "cross-env NODE_ENV=production webpack --progress -p",
+    "build": "rm -rf node_modules; cross-env NODE_ENV=production webpack --progress -p",
     "start-prod": "cross-env NODE_ENV=production node server.js",
     "lint": "eslint src",
     "heroku-start": "npm run start-prod",
