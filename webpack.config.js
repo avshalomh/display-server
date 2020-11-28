@@ -41,7 +41,8 @@ let config =  {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+    // old new webpack.NoErrorsPlugin(),
   ],
   resolve: {
     extensions: ['', '.js']
