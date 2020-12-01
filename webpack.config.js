@@ -41,20 +41,25 @@ let config =  {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NoEmitOnErrorsPlugin()
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        postcss: [ autoprefixer({ overrideBrowserslist: ['last 2 versions'] }) ]
+      }
+    })
   ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['*', '.js']
   },
   module: {
-    loaders: [
-      {test: /\.js?$/, loaders: ['babel'], exclude: /node_modules/, include: path.join(__dirname, 'src')},
+    rules: [
+      {test: /\.js?$/, loaders: ['babel-loader'], exclude: /node_modules/, include: path.join(__dirname, 'src')},
       {test: /\.css$/, exclude: /\.useable\.css$/, loader: "style!css"},
       {test: /\.stylus$/, loader: "style!css!stylus!postcss"}
     ]
   },
-  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
+  // postcss: [ autoprefixer({ overrideBrowserslist: ['last 2 versions'] }) ]
 };
 
 if (isProduction) {
