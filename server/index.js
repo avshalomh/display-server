@@ -18,6 +18,7 @@ const bodyParser = require('body-parser');
 
 let forceLoginMiddleware = (req,res,next) => {
   if (!req.session.signedIn) {
+    console.log("server/index.js: session not signed in");
     res.status(403).send('403');
   } else {
     next();
