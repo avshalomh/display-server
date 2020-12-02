@@ -11,6 +11,7 @@ const app = express();
 if (isProduction) {
   app.set('trust proxy', 1);
 }
+console.log("in server/index.js");
 const root = path.resolve('./dist');
 const sessionMiddleware = require('./session-handler').middleware;
 const bodyParser = require('body-parser');
