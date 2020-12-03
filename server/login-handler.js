@@ -4,6 +4,7 @@ let pass = process.env.USER_PASSWORD || 'p';
 function doLogin(req,res,next) {
   let un = req.body.user;
   let pw = req.body.password;
+  console.log("doLogin");
   if (un === user && pass === pw) {
     req.session.signedIn = true;
     res.send('OK');
