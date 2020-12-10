@@ -10,7 +10,7 @@ let sessionMiddleware = session({
   cookie: {
     secure: isProduction,
     //3 years
-    maxAge: 1000 * 60 * 60 * 24 * 365 * 6
+    maxAge: 1000 * 60 * 60 * 24 * 365 * 3
   },
   secret: process.env.COOKIE_SECRET || 'secret',
   resave: true,
