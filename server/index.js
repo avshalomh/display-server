@@ -30,6 +30,7 @@ app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(sessionMiddleware);
+console.log("index.js before login");
 app.get('/login', (req,res) => {
   res.sendFile(root + '/' + indexLogin);
 });
