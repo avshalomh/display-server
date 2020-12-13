@@ -18,6 +18,7 @@ class Login extends Component {
     this.state.password = e.target.value;
     this.setState(Object.assign({}, this.state, {invalid: false}));
   };
+  console.log("Login.js 1");
   doLogin = () => {
     axios.post('/doLogin', {
       user: this.state.user,
